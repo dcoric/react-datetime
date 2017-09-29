@@ -26,7 +26,8 @@ var DateTimePickerTime = onClickOutside( createClass({
 				}
 			}
 		}
-
+		var confirmButtonText = props.confirmButtonText;
+		var confirmButtonAction = props.confirmButtonAction;
 		var daypart = false;
 		if ( this.state !== null && this.props.timeFormat.toLowerCase().indexOf( ' a' ) !== -1 ) {
 			if ( this.props.timeFormat.indexOf( ' A' ) !== -1 ) {
@@ -42,7 +43,9 @@ var DateTimePickerTime = onClickOutside( createClass({
 			seconds: date.format( 'ss' ),
 			milliseconds: date.format( 'SSS' ),
 			daypart: daypart,
-			counters: counters
+			counters: counters,
+			confirmButtonText: confirmButtonText,
+			confirmButtonAction: confirmButtonAction
 		};
 	},
 
@@ -96,13 +99,15 @@ var DateTimePickerTime = onClickOutside( createClass({
 					)
 				);
 		}
+		var buttons = this.props.optionsButtonText || this.props.confirmButtonText;
 
 		return React.createElement('div', { className: 'rdtTime' },
 			React.createElement('table', {}, [
 				this.renderHeader(),
 				React.createElement('tbody', { key: 'b'}, React.createElement('tr', {}, React.createElement('td', {},
 					React.createElement('div', { className: 'rdtCounters' }, counters )
-				)))
+				)), buttons ? React.createElement('tr', {}, React.createElement('td', {}, this.renderButtons())) : ''
+				)
 			])
 		);
 	},
@@ -157,6 +162,24 @@ var DateTimePickerTime = onClickOutside( createClass({
 		return React.createElement('thead', { key: 'h' }, React.createElement('tr', {},
 			React.createElement('th', { className: 'rdtSwitch', colSpan: 4, onClick: this.props.showView( 'days' ) }, date.format( this.props.dateFormat ) )
 		));
+	},
+
+	renderButtons: function () {
+		return [ this.renderOptionsButton(), this.renderConfirmButton() ];
+	},
+
+	renderConfirmButton: function() {
+		if (!this.props.confirmButtonText) {
+			return null;
+		}
+		return React.createElement('button', {className: 'rtdTimeconfirmButton', onClick: this.props.confirmButtonAction || this.props.handleClickOutside}, this.props.confirmButtonText);
+	},
+
+	renderOptionsButton: function() {
+		if (!this.props.optionsButtonText) {
+			return null;
+		}
+		return React.createElement('button', {className: 'rtdTimeoptionsButton', onClick: this.props.optionsButtonAction}, this.props.optionsButtonText);
 	},
 
 	onStartClicking: function( action, type ) {

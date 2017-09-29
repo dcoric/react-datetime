@@ -90,7 +90,11 @@ return /******/ (function(modules) { // webpackBootstrap
 			open: TYPES.bool,
 			strictParsing: TYPES.bool,
 			closeOnSelect: TYPES.bool,
-			closeOnTab: TYPES.bool
+			closeOnTab: TYPES.bool,
+			optionsButtonText: TYPES.string,
+			confirmButtonText: TYPES.string,
+			optionsButtonAction: TYPES.func,
+			confirmButtonAction: TYPES.func
 		},
 
 		getDefaultProps: function() {
@@ -110,7 +114,9 @@ return /******/ (function(modules) { // webpackBootstrap
 				strictParsing: true,
 				closeOnSelect: false,
 				closeOnTab: true,
-				utc: false
+				utc: false,
+				optionsButtonText: false,
+				confirmButtonText: 'Done'
 			};
 		},
 
@@ -444,7 +450,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 
 		componentProps: {
-			fromProps: ['value', 'isValidDate', 'renderDay', 'renderMonth', 'renderYear', 'timeConstraints'],
+			fromProps: ['value', 'isValidDate', 'renderDay', 'renderMonth', 'renderYear', 'timeConstraints', 'confirmButtonText', 'confirmButtonAction', 'optionsButtonText', 'optionsButtonAction'],
 			fromState: ['viewDate', 'selectedDate', 'updateOn'],
 			fromThis: ['setDate', 'setTime', 'showView', 'addTime', 'subtractTime', 'updateSelectedDate', 'localMoment', 'handleClickOutside']
 		},
@@ -1431,43 +1437,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	var warning = emptyFunction;
 
 	if (process.env.NODE_ENV !== 'production') {
-	  var printWarning = function printWarning(format) {
-	    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	      args[_key - 1] = arguments[_key];
-	    }
-
-	    var argIndex = 0;
-	    var message = 'Warning: ' + format.replace(/%s/g, function () {
-	      return args[argIndex++];
-	    });
-	    if (typeof console !== 'undefined') {
-	      console.error(message);
-	    }
-	    try {
-	      // --- Welcome to debugging React ---
-	      // This error was thrown as a convenience so that you can use this stack
-	      // to find the callsite that caused this warning to fire.
-	      throw new Error(message);
-	    } catch (x) {}
-	  };
-
-	  warning = function warning(condition, format) {
-	    if (format === undefined) {
-	      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
-	    }
-
-	    if (format.indexOf('Failed Composite propType: ') === 0) {
-	      return; // Ignore CompositeComponent proptype check.
-	    }
-
-	    if (!condition) {
-	      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-	        args[_key2 - 2] = arguments[_key2];
+	  (function () {
+	    var printWarning = function printWarning(format) {
+	      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	        args[_key - 1] = arguments[_key];
 	      }
 
-	      printWarning.apply(undefined, [format].concat(args));
-	    }
-	  };
+	      var argIndex = 0;
+	      var message = 'Warning: ' + format.replace(/%s/g, function () {
+	        return args[argIndex++];
+	      });
+	      if (typeof console !== 'undefined') {
+	        console.error(message);
+	      }
+	      try {
+	        // --- Welcome to debugging React ---
+	        // This error was thrown as a convenience so that you can use this stack
+	        // to find the callsite that caused this warning to fire.
+	        throw new Error(message);
+	      } catch (x) {}
+	    };
+
+	    warning = function warning(condition, format) {
+	      if (format === undefined) {
+	        throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
+	      }
+
+	      if (format.indexOf('Failed Composite propType: ') === 0) {
+	        return; // Ignore CompositeComponent proptype check.
+	      }
+
+	      if (!condition) {
+	        for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+	          args[_key2 - 2] = arguments[_key2];
+	        }
+
+	        printWarning.apply(undefined, [format].concat(args));
+	      }
+	    };
+	  })();
 	}
 
 	module.exports = warning;
@@ -3431,7 +3439,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					}
 				}
 			}
-
+			var confirmButtonText = props.confirmButtonText;
+			var confirmButtonAction = props.confirmButtonAction;
 			var daypart = false;
 			if ( this.state !== null && this.props.timeFormat.toLowerCase().indexOf( ' a' ) !== -1 ) {
 				if ( this.props.timeFormat.indexOf( ' A' ) !== -1 ) {
@@ -3447,7 +3456,9 @@ return /******/ (function(modules) { // webpackBootstrap
 				seconds: date.format( 'ss' ),
 				milliseconds: date.format( 'SSS' ),
 				daypart: daypart,
-				counters: counters
+				counters: counters,
+				confirmButtonText: confirmButtonText,
+				confirmButtonAction: confirmButtonAction
 			};
 		},
 
@@ -3501,13 +3512,15 @@ return /******/ (function(modules) { // webpackBootstrap
 						)
 					);
 			}
+			var buttons = this.props.optionsButtonText || this.props.confirmButtonText;
 
 			return React.createElement('div', { className: 'rdtTime' },
 				React.createElement('table', {}, [
 					this.renderHeader(),
 					React.createElement('tbody', { key: 'b'}, React.createElement('tr', {}, React.createElement('td', {},
 						React.createElement('div', { className: 'rdtCounters' }, counters )
-					)))
+					)), buttons ? React.createElement('tr', {}, React.createElement('td', {}, this.renderButtons())) : ''
+					)
 				])
 			);
 		},
@@ -3562,6 +3575,24 @@ return /******/ (function(modules) { // webpackBootstrap
 			return React.createElement('thead', { key: 'h' }, React.createElement('tr', {},
 				React.createElement('th', { className: 'rdtSwitch', colSpan: 4, onClick: this.props.showView( 'days' ) }, date.format( this.props.dateFormat ) )
 			));
+		},
+
+		renderButtons: function () {
+			return [ this.renderOptionsButton(), this.renderConfirmButton() ];
+		},
+
+		renderConfirmButton: function() {
+			if (!this.props.confirmButtonText) {
+				return null;
+			}
+			return React.createElement('button', {className: 'rtdTimeconfirmButton', onClick: this.props.confirmButtonAction || this.props.handleClickOutside}, this.props.confirmButtonText);
+		},
+
+		renderOptionsButton: function() {
+			if (!this.props.optionsButtonText) {
+				return null;
+			}
+			return React.createElement('button', {className: 'rtdTimeoptionsButton', onClick: this.props.optionsButtonAction}, this.props.optionsButtonText);
 		},
 
 		onStartClicking: function( action, type ) {

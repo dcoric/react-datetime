@@ -76,6 +76,15 @@ exports[`dateFormat set to false 1`] = `
               </div>
             </td>
           </tr>
+          <tr>
+            <td>
+              <button
+                className="rtdTimeconfirmButton"
+                onClick={[Function]}>
+                Done
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -7651,6 +7660,15 @@ exports[`viewMode set to time 1`] = `
                   </span>
                 </div>
               </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button
+                className="rtdTimeconfirmButton"
+                onClick={[Function]}>
+                Done
+              </button>
             </td>
           </tr>
         </tbody>

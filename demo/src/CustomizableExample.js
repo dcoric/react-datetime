@@ -4,12 +4,12 @@ import DateTime from 'react-datetime'
 export default class CustomizableExample extends Component {
   state = {
     viewMode: 'days',
-    dateFormat: 'MM/DD/YYYY',
-    timeFormat: 'HH:mm A',
+    dateFormat: 'DD.MM.YYYY',
+    timeFormat: 'HH:mm',
     input: true,
     utc: false,
     closeOnSelect: false,
-    closeOnTab: true,
+    closeOnTab: true, confirmButtonText: 'Text', confirmButtonAction: function () {alert('ok');}
   }
 
   render() {

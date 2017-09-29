@@ -150,6 +150,10 @@ declare namespace ReactDatetimeClass {
          close it.
          */
         disableOnClickOutside?: boolean;
+
+        confirmButtonText?: string;
+
+        confirmButtonAction?: Object;
     }
 
     export interface DatetimepickerState {

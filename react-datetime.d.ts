@@ -131,6 +131,14 @@ declare module ReactDatetime {
      close it.
     */
     disableOnClickOutside?: boolean;
+
+    confirmButtonText?: string;
+
+    confirmButtonAction?: Object;
+
+    optionsButtonText?: string;
+
+    optionsButtonAction?: Object;
   }
 
   interface DatetimeComponent extends React.ComponentClass<DatetimepickerProps> {

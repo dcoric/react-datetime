@@ -29,7 +29,11 @@ var Datetime = createClass({
 		open: TYPES.bool,
 		strictParsing: TYPES.bool,
 		closeOnSelect: TYPES.bool,
-		closeOnTab: TYPES.bool
+		closeOnTab: TYPES.bool,
+		optionsButtonText: TYPES.string,
+		confirmButtonText: TYPES.string,
+		optionsButtonAction: TYPES.func,
+		confirmButtonAction: TYPES.func
 	},
 
 	getDefaultProps: function() {
@@ -49,7 +53,9 @@ var Datetime = createClass({
 			strictParsing: true,
 			closeOnSelect: false,
 			closeOnTab: true,
-			utc: false
+			utc: false,
+			optionsButtonText: false,
+			confirmButtonText: 'Done'
 		};
 	},
 
@@ -383,7 +389,7 @@ var Datetime = createClass({
 	},
 
 	componentProps: {
-		fromProps: ['value', 'isValidDate', 'renderDay', 'renderMonth', 'renderYear', 'timeConstraints'],
+		fromProps: ['value', 'isValidDate', 'renderDay', 'renderMonth', 'renderYear', 'timeConstraints', 'confirmButtonText', 'confirmButtonAction', 'optionsButtonText', 'optionsButtonAction'],
 		fromState: ['viewDate', 'selectedDate', 'updateOn'],
 		fromThis: ['setDate', 'setTime', 'showView', 'addTime', 'subtractTime', 'updateSelectedDate', 'localMoment', 'handleClickOutside']
 	},
