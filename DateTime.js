@@ -205,6 +205,7 @@ var Datetime = createClass({
 				updatedState.viewDate = updatedState.viewDate.add(1, 'day');
 			}
 		}
+		updatedState.open = nextProps.open;
 		this.setState( updatedState );
 	},
 

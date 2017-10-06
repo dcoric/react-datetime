@@ -266,6 +266,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					updatedState.viewDate = updatedState.viewDate.add(1, 'day');
 				}
 			}
+			updatedState.open = nextProps.open;
 			this.setState( updatedState );
 		},
 
