@@ -493,7 +493,8 @@ return /******/ (function(modules) { // webpackBootstrap
 					onFocus: this.openCalendar,
 					onChange: this.onInputChange,
 					onKeyDown: this.onInputKey,
-					value: this.state.inputValue
+					value: this.state.inputValue,
+	        readOnly: true
 				}, this.props.inputProps ))];
 			} else {
 				className += ' rdtStatic';
@@ -3511,7 +3512,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				counters.push( React.createElement('div', { className: 'rdtCounterSeparator', key: 'sep5' }, ':' ) );
 				counters.push(
 					React.createElement('div', { className: 'rdtCounter rdtMilli', key: 'm' },
-						React.createElement('input', { value: this.state.milliseconds, type: 'text', onChange: this.updateMilli } )
+						React.createElement('input', { value: this.state.milliseconds, type: 'text', onChange: this.updateMilli, readOnly: true } )
 						)
 					);
 			}

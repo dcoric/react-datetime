@@ -432,7 +432,8 @@ var Datetime = createClass({
 				onFocus: this.openCalendar,
 				onChange: this.onInputChange,
 				onKeyDown: this.onInputKey,
-				value: this.state.inputValue
+				value: this.state.inputValue,
+				readOnly: true
 			}, this.props.inputProps ))];
 		} else {
 			className += ' rdtStatic';
